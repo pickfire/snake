@@ -14,10 +14,9 @@ pub struct Args {
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let arg: Args = argh::from_env();
 
-    let (tx, mut rx) = oneshot::channel();
-
     // start a server if not connecting to other servers
     if arg.connect.is_none() {
+        let (tx, mut rx) = oneshot::channel();
         thread::spawn(|| snake::server::start(tx));
 
         // wait for signal to start
