@@ -1,9 +1,7 @@
-Broken Snake
-============
+Multiplayer Snake
+=================
 
-I wanted to do a multiplayer snake game in terminal but I guess I made when I
-mix both sync and async code together as well as mixing the client and server
-part, probably would have been easier if I separate out the server.
+Snake game done during a hackathon. Without logic.
 
-I separated it into another thread but not sure why it isn't listening on the
-port.
+Only playing with networking part at first, probably needs to separate client
+network calls into another thread.

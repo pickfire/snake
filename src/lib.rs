@@ -1,6 +1,6 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
-use termion::{color};
+use termion::color;
 
 pub mod server;
 
