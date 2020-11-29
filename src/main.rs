@@ -1,10 +1,5 @@
 use argh::FromArgs;
-use snake::Color;
-use std::io::{self, Read, Write};
-use std::net::TcpStream;
 use std::thread;
-use termion::raw::IntoRawMode;
-use termion::{clear, cursor};
 use tokio::sync::oneshot;
 use tokio::sync::oneshot::error::TryRecvError;
 
@@ -36,33 +31,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
     }
 
-    let server = arg.connect.clone().unwrap_or("127.0.0.1:2345".to_string());
-    println!("connecting");
-    let mut stream = TcpStream::connect(server)?;
-    println!("connected");
-
-    let mut color = [0; 8];
-    stream.read(&mut color).unwrap();
-    let color: Option<Color> = bincode::deserialize(&color).unwrap();
-    let color = color.expect("server full");
-
-    let stdout = io::stdout();
-    let mut stdout = stdout.lock().into_raw_mode().unwrap();
-    let mut stdin = termion::async_stdin();
-
-    println!("{:?}", color);
-
-    loop {
-        write!(stdout, "{}{}", clear::All, cursor::Goto(1, 1)).unwrap();
-
-        let mut key_bytes = [0];
-        stdin.read(&mut key_bytes)?;
-
-        if b"qkwjshald".contains(&key_bytes[0]) {
-            stream.write_all(&key_bytes)?;
-            if key_bytes[0] == b'q' {
-                return Ok(());
-            }
-        }
-    }
+    let server = arg.connect.unwrap_or("127.0.0.1:2345".to_string());
+    snake::client::start(&server)
 }

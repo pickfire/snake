@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 use termion::color;
 
+pub mod client;
 pub mod server;
 
 /// Game state passed arough through network.
@@ -31,11 +32,11 @@ pub enum Color {
 }
 
 impl Color {
-    pub fn to_term_color(&self) -> Box<dyn color::Color> {
+    pub fn to_term_color(&self) -> &'static str {
         match self {
-            Color::Red => Box::new(color::Red),
-            Color::Green => Box::new(color::Green),
-            Color::Blue => Box::new(color::Blue),
+            Color::Red => color::Red.fg_str(),
+            Color::Green => color::Green.fg_str(),
+            Color::Blue => color::Blue.fg_str(),
         }
     }
 }

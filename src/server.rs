@@ -1,3 +1,4 @@
+/// Server handles backend logic and timing.
 use crate::{Color, GameState};
 use std::sync::{Arc, Mutex};
 use tokio::net::TcpListener;
